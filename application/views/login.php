@@ -44,7 +44,7 @@
 				?>
                     <h1 class="h4 text-gray-900 mb-4">
 					
-					<?php if($hres[0]['setting_value']==""){ ?>Savsoft Quiz <sup>5.0</sup><?php }else{ echo $hres[0]['setting_value']; }?> 
+					<?php if($hres[0]['setting_value']==""){ ?>JAMIYA CBT<?php }else{ echo $hres[0]['setting_value']; }?> 
 					
 					</h1>
                   </div>
@@ -77,29 +77,13 @@
                   
                   </form>
 				  
-				     <div class="text-center">
-                    <a class="small" href="<?php echo site_url('login/forgot');?>"><?php echo $this->lang->line('forgot_password');?> </a>
-					<?php 
-if($this->config->item('open_quiz')){
-	?>			 
-			&nbsp;&nbsp;&nbsp;<a class="small" href="<?php echo site_url('quiz/open_quiz/0');?>"  ><?php echo $this->lang->line('open_quizzes');?></a>
-			 
-			<?php 
-			}
-			?>
-			
-                  </div>
+				   
 				  
 				  
 				  
                   <hr>
                
-                  <div class="text-center">
-                    <a class="btn btn-danger btn-user btn-block" href="<?php echo site_url('login/pre_registration');?>"><?php echo $this->lang->line('register_new_account');?></a>
-                   
-				  <p style="margin-top:40px;""><a class="small" href="https://savsoftquiz.com" style="float:right;">Powered by Savsoft Quiz v5.0</a></p>
- 
-				 </div>
+              
                 </div>
               </div>
             </div>

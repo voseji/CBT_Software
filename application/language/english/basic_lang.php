@@ -1,5 +1,5 @@
 <?php 
-$lang['savsoft_quiz'] = "Savsoft Quiz v5.0";
+$lang['savsoft_quiz'] = "JAMIYA CBT Software";
 $lang['installation_process'] = "Installation Process";
 $lang['installation_completed'] = "Installation Completed. Visit base URL {base_url} to login.<br><br>Default login info:<br> Email: ADMINEMAIL <br>Password: ADMINPASS<br><br>For more information or customization visit <a href='http://savsoftquiz.com/'>www.SavsoftQuiz.com/</a> ";
 $lang['installation_failed'] = "Installation Failed";
