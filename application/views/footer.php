@@ -81,7 +81,7 @@ $('#advertisement_bg').css('display','none');
 	?>
 	 
 <div class="container" style="text-align:right;">
-Powered by <a href="https://savsoftquiz.com">Savsoft Quiz</a>
+Powered by <a href="#">ODT</a>
 </div>
 </div>	   
 		

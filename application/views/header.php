@@ -99,9 +99,9 @@ form{
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="https://savsoftquiz.com">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
          
-        <div class="sidebar-brand-text mx-3"><?php if($hres[0]['setting_value']==""){ ?>Savsoft Quiz <sup>5.0</sup><?php }else{ echo $hres[0]['setting_value']; }?> </div>
+        <div class="sidebar-brand-text mx-3"><?php if($hres[0]['setting_value']==""){ ?>JAMIYA CBT<?php }else{ echo $hres[0]['setting_value']; }?> </div>
 		
 		
       </a>
@@ -311,18 +311,7 @@ if(in_array('All',explode(',',$logged_in['setting']))){
 if(in_array('All',explode(',',$logged_in['setting']))){
 ?>
      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupport" aria-expanded="true" aria-controls="collapseStudy">
-          <i class="fas fa-fw fa-question-circle"></i>
-          <span>Support</span>
-        </a>
-        <div id="collapseSupport" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-          
-            <a class="collapse-item" href="https://savsoftquiz.com/support.php">Support</a>
-          </div>
-        </div>
-      </li>
+ 
 	  
 <?php 
 }
