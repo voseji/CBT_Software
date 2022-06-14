@@ -85,10 +85,10 @@ $rplc_str3='&lt;a:blip r:embed=&quot;'.$key.'&quot;/&gt;';
  $ext_img = strtolower(pathinfo($value, PATHINFO_EXTENSION));
 $imagenew_name=time().$rand_inc_number.".".$ext_img;
 $old_path=$word_folder."/".$value;
-$new_path=$target_dir."word_images/".$imagenew_name;
+$new_path=$target_dir."/".$imagenew_name;
 
 rename($old_path,$new_path);
-$img='<img src="'.base_url('upload/word_images/')."/".$imagenew_name.'">';
+$img='<img src="'.base_url('upload/')."".$imagenew_name.'">';
 echo $rplc_str2."--".htmlentities($img);
 $content=str_replace($rplc_str,$img,$content);
 $content=str_replace($rplc_str2,$img,$content);

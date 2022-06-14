@@ -329,7 +329,7 @@ if(in_array('All',explode(',',$logged_in['setting']))){
 
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+        <h3>Blooms Academy, Abuja</h3>
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
@@ -350,57 +350,15 @@ $logged_in=$this->session->userdata('logged_in');
 	 where appointment_request.to_id='$uid' and appointment_request.appointment_status='Pending' ");
 	$invitations=$query->result_array();
 	
- 	$query=$this->db->query("select * from savsoft_notification 
-	  where (savsoft_notification.uid='$uid' OR savsoft_notification.uid='0') AND (savsoft_notification.viewed='0')  ");
-	$notifications=$query->result_array();
+
 	
 	?>
 	
 	  
 	              <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter"><?php echo count($invitations)+count($notifications);?></span>
-              </a>
+         
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                 Notification
-                </h6>
-				 <?php 
-				 if(count($invitations) >= 1){
-					 ?>
-                <a class="dropdown-item d-flex align-items-center" href="<?php echo site_url('appointment/myappointment/');?>">
-                  
-                  <div>
-                    <div class="small text-gray-500"><?php echo date('d M Y',time());?></div>
-                    <span class="font-weight-bold">There are <?php echo count($invitations);?> pending appointments</span>
-                  </div>
-                </a>
-				
-				<?php 
-				 }
-				 foreach($notifications as $k => $notification){
-					 ?>
-               <a class="dropdown-item d-flex align-items-center" href="<?php echo site_url('notification');?>">
-                  
-                  <div>
-                    <div class="small text-gray-500"><?php echo $notification['notification_date'];?></div>
-                    <span class="font-weight-bold"><?php echo $notification['title'];?> </span>
-                  </div>
-                </a>
-					 
-					 <?php 
-				 }
-				 if(count($invitations)==0 &&  count($notifications)==0){
-				?><a class="dropdown-item d-flex align-items-center" href="#"><div class="small text-gray-500"><span class="font-weight-bold"><?php 	 echo "No notification for you!";?></span></div></a><?php 
-				 }
-				 ?>
-            
-              </div>
-            </li>
+
 			
 			
 	  
