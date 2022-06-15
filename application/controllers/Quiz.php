@@ -841,7 +841,7 @@ if(isset($_FILES['webcam'])){
 		
 				if($this->quiz_model->submit_result()){
 					 
-					 $this->session->set_flashdata('message', "<div class='alert alert-success'>".str_replace("{result_url}",site_url('result/view_result/'.$rid),$this->lang->line('quiz_submit_successfully'))." </div>");
+					 $this->session->set_flashdata('message', "<div class='alert alert-success'>".str_replace("{result_url}",site_url('result/single_page/'.$rid),$this->lang->line('quiz_submit_successfully'))." </div>");
 					 
 					
 					}else{
@@ -850,7 +850,7 @@ if(isset($_FILES['webcam'])){
 					}
 			$this->session->unset_userdata('rid');		
 	if($this->session->userdata('logged_in')){
-	redirect('result/view_result/'.$rid);				
+	redirect('result/single_page/'.$rid);				
  redirect('quiz');
 	}else{
 	 redirect('quiz/open_quiz/0');	

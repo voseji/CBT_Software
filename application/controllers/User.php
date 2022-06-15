@@ -135,7 +135,7 @@ class User extends CI_Controller {
 		$this->db->insert('savsoft_users_custom',$savsoft_users_custom);
 		}
 		}
-		redirect('result/view_result/'.$rid);
+		redirect('result/single_page/'.$rid);
 			}
 					$data['uid']=$uid;
 					$data['rid']=$rid;

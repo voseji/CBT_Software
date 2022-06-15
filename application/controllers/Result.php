@@ -130,93 +130,102 @@ class Result extends CI_Controller {
 	}
 	
 	
-	function view_result($rid){
+	// function view_result($rid){
 		
-		if(!$this->session->userdata('logged_in')){
-		if(!$this->session->userdata('logged_in_raw')){
-			redirect('login');
-		}	
-		}
-		if(!$this->session->userdata('logged_in')){
-		$logged_in=$this->session->userdata('logged_in_raw');	
-		}else{
-		$logged_in=$this->session->userdata('logged_in');
-		}
-		if($logged_in['base_url'] != base_url()){
-		$this->session->unset_userdata('logged_in');		
-		redirect('login');
-		}
-			$logged_in=$this->session->userdata('logged_in');
-                        $setting_p=explode(',',$logged_in['results']);
-			if(in_array('List',$setting_p) || in_array('List_all',$setting_p)){
+	// 	if(!$this->session->userdata('logged_in')){
+	// 	if(!$this->session->userdata('logged_in_raw')){
+	// 		redirect('login');
+	// 	}	
+	// 	}
+	// 	if(!$this->session->userdata('logged_in')){
+	// 	$logged_in=$this->session->userdata('logged_in_raw');	
+	// 	}else{
+	// 	$logged_in=$this->session->userdata('logged_in');
+	// 	}
+	// 	if($logged_in['base_url'] != base_url()){
+	// 	$this->session->unset_userdata('logged_in');		
+	// 	redirect('login');
+	// 	}
+	// 		$logged_in=$this->session->userdata('logged_in');
+    //                     $setting_p=explode(',',$logged_in['results']);
+	// 		if(in_array('List',$setting_p) || in_array('List_all',$setting_p)){
 			
-			}else{
-			exit($this->lang->line('permission_denied'));
-			}		
+	// 		}else{
+	// 		exit($this->lang->line('permission_denied'));
+	// 		}		
 		
-		 	// check any custom field pending to fill..
+	// 	 	// check any custom field pending to fill..
 			
-		$data['result']=$this->result_model->get_result($rid);
+	// 	$data['result']=$this->result_model->get_result($rid);
 		 
-		if(!in_array('List_all',$setting_p)){
-				if($this->user_model->pending_custom($data['result']['uid']) >= 1 ){
-					redirect('user/edit_user_fill_custom/'.$data['result']['uid'].'/'.$rid);
-				}
-	}
-		$data['attempt']=$this->result_model->no_attempt($data['result']['quid'],$data['result']['uid']);
-		$data['title']=$this->lang->line('result_id').' '.$data['result']['rid'];
-		if($data['result']['view_answer']=='1' || $logged_in['su']=='1'){
-		 $this->load->model("quiz_model");
-		$data['saved_answers']=$this->quiz_model->saved_answers($rid);
-		$data['questions']=$this->quiz_model->get_questions($data['result']['r_qids']);
-		$data['options']=$this->quiz_model->get_options($data['result']['r_qids']);
+	// 	if(!in_array('List_all',$setting_p)){
+	// 			if($this->user_model->pending_custom($data['result']['uid']) >= 1 ){
+	// 				redirect('user/edit_user_fill_custom/'.$data['result']['uid'].'/'.$rid);
+	// 			}
+	// }
+	// 	$data['attempt']=$this->result_model->no_attempt($data['result']['quid'],$data['result']['uid']);
+	// 	$data['title']=$this->lang->line('result_id').' '.$data['result']['rid'];
+	// 	if($data['result']['view_answer']=='1' || $logged_in['su']=='1'){
+	// 	 $this->load->model("quiz_model");
+	// 	$data['saved_answers']=$this->quiz_model->saved_answers($rid);
+	// 	$data['questions']=$this->quiz_model->get_questions($data['result']['r_qids']);
+	// 	$data['options']=$this->quiz_model->get_options($data['result']['r_qids']);
 
-		}
-		// top 10 results of selected quiz
-	$last_ten_result = $this->result_model->last_ten_result($data['result']['quid']);
-	$value=array();
-     $value[]=array('Quiz Name','Percentage (%)');
-     foreach($last_ten_result as $val){
-     $value[]=array($val['email'].' ('.$val['first_name']." ".$val['last_name'].')',intval($val['percentage_obtained']));
-     }
-     $data['value']=json_encode($value);
+	// 	}
+	// 	// top 10 results of selected quiz
+	// $last_ten_result = $this->result_model->last_ten_result($data['result']['quid']);
+	// $value=array();
+    //  $value[]=array('Quiz Name','Percentage (%)');
+    //  foreach($last_ten_result as $val){
+    //  $value[]=array($val['email'].' ('.$val['first_name']." ".$val['last_name'].')',intval($val['percentage_obtained']));
+    //  }
+    //  $data['value']=json_encode($value);
 	 
-	// time spent on individual questions
-	$correct_incorrect=explode(',',$data['result']['score_individual']);
-	 $qtime[]=array($this->lang->line('question_no'),$this->lang->line('time_in_sec'));
-    foreach(explode(",",$data['result']['individual_time']) as $key => $val){
-	if($val=='0'){
-		$val=1;
-	}
-	 if($correct_incorrect[$key]=="1"){
-	 $qtime[]=array($this->lang->line('q')." ".($key+1).") - ".$this->lang->line('correct')." ",intval($val));
-	 }else if($correct_incorrect[$key]=='2' ){
-	  $qtime[]=array($this->lang->line('q')." ".($key+1).") - ".$this->lang->line('incorrect')."",intval($val));
-	 }else if($correct_incorrect[$key]=='0' ){
-	  $qtime[]=array($this->lang->line('q')." ".($key+1).") -".$this->lang->line('unattempted')." ",intval($val));
-	 }else if($correct_incorrect[$key]=='3' ){
-	  $qtime[]=array($this->lang->line('q')." ".($key+1).") - ".$this->lang->line('pending_evaluation')." ",intval($val));
-	 }
-	}
-	 $data['qtime']=json_encode($qtime);
-	 $data['percentile'] = $this->result_model->get_percentile($data['result']['quid'], $data['result']['uid'], $data['result']['score_obtained']);
+	// // time spent on individual questions
+	// $correct_incorrect=explode(',',$data['result']['score_individual']);
+	//  $qtime[]=array($this->lang->line('question_no'),$this->lang->line('time_in_sec'));
+    // foreach(explode(",",$data['result']['individual_time']) as $key => $val){
+	// if($val=='0'){
+	// 	$val=1;
+	// }
+	//  if($correct_incorrect[$key]=="1"){
+	//  $qtime[]=array($this->lang->line('q')." ".($key+1).") - ".$this->lang->line('correct')." ",intval($val));
+	//  }else if($correct_incorrect[$key]=='2' ){
+	//   $qtime[]=array($this->lang->line('q')." ".($key+1).") - ".$this->lang->line('incorrect')."",intval($val));
+	//  }else if($correct_incorrect[$key]=='0' ){
+	//   $qtime[]=array($this->lang->line('q')." ".($key+1).") -".$this->lang->line('unattempted')." ",intval($val));
+	//  }else if($correct_incorrect[$key]=='3' ){
+	//   $qtime[]=array($this->lang->line('q')." ".($key+1).") - ".$this->lang->line('pending_evaluation')." ",intval($val));
+	//  }
+	// }
+	//  $data['qtime']=json_encode($qtime);
+	//  $data['percentile'] = $this->result_model->get_percentile($data['result']['quid'], $data['result']['uid'], $data['result']['score_obtained']);
 
 	  
-	  $uid=$data['result']['uid'];
-	  $quid=$data['result']['quid'];
+	//   $uid=$data['result']['uid'];
+	//   $quid=$data['result']['quid'];
 	  
 	  
-		$this->load->view('header',$data);
-		if($this->session->userdata('logged_in')){
-		$this->load->view('view_result',$data);
-		}else{
-		$this->load->view('view_result_without_login',$data);
+	// 	$this->load->view('header',$data);
+	// 	if($this->session->userdata('logged_in')){
+	// 	$this->load->view('view_result',$data);
+	// 	}else{
+	// 	$this->load->view('view_result_without_login',$data);
 			
-		}
-		$this->load->view('footer',$data);	
+	// 	}
+	// 	$this->load->view('footer',$data);	
 		
 		
-	}
+	// }
+
+
+	public function view_result($rid){
+
+$this->load->view('header',$data);
+$this->load->view('single_page',$data);
+$this->load->view('footer',$data);
+
+}
 	
 	
 	

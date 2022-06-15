@@ -122,7 +122,8 @@ foreach($result as $key => $val){
  <td><?php echo $val['result_status'];?></td>
  <td><?php echo $val['percentage_obtained'];?>%</td>
 <td>
-<a href="<?php echo site_url('result/view_result/'.$val['rid']);?>" class="btn btn-success" ><?php echo $this->lang->line('view');?> </a>
+	<form action="<?php echo site_url('result/view_result/'.$val['rid']);?>">
+		<input type="hidden" name="uuuid" value="<?php echo $val['rid']?>"/><input type="submit" value="View" class="btn btn-success"/></form>
 <?php 
 if($logged_in['su']=='1'){
 	?>
