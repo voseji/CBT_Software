@@ -194,7 +194,7 @@ class Login extends CI_Controller {
 			 redirect('dashboard');
 				 
 			}else{
-				$burl=$this->config->item('base_url').'index.php/quiz';
+				$burl=$this->config->item('base_url').'/index.php/quiz';
 			 header("location:$burl");
 			}
 		}else if($status['status']=='0'){

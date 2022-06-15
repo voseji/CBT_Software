@@ -1,4 +1,3 @@
- <script src="<?php echo base_url('js/TweenMax.min.js');?>"></script>
  <style>
 @media print {
    
@@ -32,7 +31,6 @@
 }
 }
  td{
-		color:#212121;
 		font-size:14px;
 		padding:4px;
 	}
@@ -238,11 +236,6 @@ $cia_tim_cate=cia_tim_cate($correct_incorrect_unattempted,explode(",",$result['i
 
 ?>
 <div class="row noprint" >
-<?php 
-		if($this->session->flashdata('message')){
-			echo $this->session->flashdata('message');	
-		}
-		?>	
 <div class="col-lg-12" style="background-image:url('<?php echo base_url('images/result_bg.jpg');?>');background-size:cover;font-size:18px;padding:20px;color:#ffffff;min-height:400px;">
 <div class="col-lg-12" >
 <center><h3><span style="color:#e39500;"> 
@@ -254,7 +247,7 @@ $cia_tim_cate=cia_tim_cate($correct_incorrect_unattempted,explode(",",$result['i
 <h2><span style="color:#e39500;"><?php echo $result['quiz_name'];?>   </span></h2>
 </center>
 </div>
-<div class="row" style="margin-top:20px;">
+<div class="col-lg-12" style="margin-top:20px;">
 	<div class="col-lg-2" style="text-align:center;">
 		<p><?php echo $this->lang->line('score_obtained');?></p>
 		<p style="color:#e39500;" ><?php echo $result['score_obtained'];?></p>
@@ -309,16 +302,10 @@ if($result['gen_certificate']=='1'){
 	
 <?php
 }
- $logged_in=$this->session->userdata('logged_in');
-	 		 $acp=explode(',',$logged_in['appointment']);
-			if(in_array('List',$acp)){
 ?>
 
-<a href="<?php echo site_url('appointment/get_appointment/'.$result['inserted_by']);?>" class="btn btn-primary printbtn" style="margin-top:10px;"><?php echo $this->lang->line('appointment_with_expert');?></a>
 
-<?php 
-}
-?>
+
 </center>
 </div>
 
@@ -352,18 +339,7 @@ if($result['gen_certificate']=='1'){
 
 
  
-<?php 
-$noq=count($result['r_qids']);
-$category_range=explode(',',$result['category_range']);
-$category_ranges=array();
-$qi=0;
-foreach($category_range as $qik => $qvv){
- $category_ranges_i=array($qi,($qi+($qvv-1)));
- $category_ranges[]=$category_ranges_i;
-$qi+=$qvv;
-}
- 
-?>
+
 
   <div class="row">
      
@@ -377,7 +353,6 @@ $qi+=$qvv;
 		 
 <table class="table table-bordered">
 <?php 
-
 if($result['camera_req']=='1'){
 	?>
 <tr><td colspan='2'> <?php if($result['photo']!=''){ ?> <img src ="<?php echo base_url('photo/'.$result['photo']);?>" id="photograph" ><?php } ?></td></tr>
@@ -402,282 +377,8 @@ if($result['camera_req']=='1'){
 		</div>
 </div>
 <br>
- <?php 
- if($result['quiz_template']=="Default_PROCTOR"){
-$rid= $result['rid'];
-$quid= $result['quid'];
- $files = glob('proctor/'.$quid.'-'.$rid.'-*.png');  
  
-// Process through each file in the list
-// and output its extension
- 
-if (count($files) > 0){
-  $recorded_files=count($files);
- }else{
- $recorded_files=0;
- }
- 
-  $files2 = glob('screenshots/'.$quid.'-'.$rid.'-*.png');  
- 
-// Process through each file in the list
-// and output its extension
- 
-if (count($files2) > 0){
-  $recorded_files=count($files2);
- }else{
- $recorded_files=0;
- }
- 
- 
- // echo $recorded_files;
- ?>
- <div class="panel panel-default">
- <div class="panel-heading">
- <button data-toggle="collapse" data-target="#warning" class="btn btn-info">Warnings</button>
-<button data-toggle="collapse" data-target="#Captured" class="btn btn-info">Captured Images</button>
-<button data-toggle="collapse" data-target="#Scaptured" class="btn btn-info">Screen capturing</button>
-
-</div>
-<div   id="warning" class="panel-body collapse">'
-<?php 
-$wquery=$this->db->query(" select * from warning_message where rid='$rid' ");
-
-?>
-<h3>Warnings (<?php echo $wquery->num_rows();?>)</h3>
-<?php 
-if($wquery->num_rows()==0){
-
-echo "<div class='alert alert-success'>No warning issued!</div>";
-
-}else{
-foreach($wquery->result_array() as $k => $v){
-
-echo "<div class='alert alert-danger'>". $v['warning_message']." <span style='float:right;color:#666666; '>".date('Y-m-d H:i:s',$v['warning_time'])."</span></div>";
-
-}
-
-}
-
-?>
-
-</div>
-<div   id="Captured" class="panel-body collapse">
-<h3>Photos captured</h3>
-<?php 
-	foreach($files as $j => $file){
-	$fname=explode('-',$file);
-	
-	?>
-<div class="col-lg-3"><img src= '<?php echo base_url($file);?>'>
-<b><?php echo $fname[2].'-'.$fname[3].'-'.$fname[4].'-'.$fname[5].'-'.$fname[6].'-'.$fname[7];?></b>
-</div>
-<?php 
-}
-?>
-
- </div>
- 
- <div   id="Scaptured" class="panel-body collapse">
-<h3>Screen captured</h3>
-<style>
-/* styles needed by the plugin */
-.animatedimage {
-  position: relative;
-  display: inline-block;
-  line-height: 0;
-  overflow: hidden;
-}
-.animatedimage > * {
-  position: absolute;
-  display: inline-block;
-  visibility: hidden;
-  border: 0;
-}
-/* the image that will show while waiting for javascript to load, and what users without javascript will see - if you don't want to use a class you might use *:first-child to select this instead */
-.animatedimage > .poster {
-  position: static;
-  visibility: visible;
-}
-/* spritesheets will rely on left/top positioning */
-.animatedimage[data-spritesize] > * {
-  position: relative;
-}
-
-.box {
-  float: left;
-  width: 128px;
-  margin: 10px;
-  padding: 20px;
-  background: #FFF;
-  border-radius: 5px;
-  color: #111;
-  cursor: pointer;
-}
-.box p {
-  float: none;
-  margin: 20px 0 0 0;
-}
-.box:hover {
-  box-shadow: 0 0 0 1px #FFF;
-}
-.animatedimage {
-  pointer-events: none; /* the image sequence has a little trouble with click events when rapidly changing the images */
-}
-</style>
-
-<script>
-// make sure all the images have loaded before starting any animation
-$(window).on('load', function() {
-
-  // just adding a little delay at the start to extend the 'loading' to see what is shown before the plugin is activated
-  TweenLite.delayedCall(2, function() {
-    // activate animation on the animatedimage elements
-    $('.animatedimage').animateimage(1, -1)
-    // setup a click on the box to toggle the animation pause
-    .parent().on('click', function() {
-      var image = $(this).children('.animatedimage');
-      
-      // the plugin saves the animation in the 'animation' property of the DOM element e.g. image[0].animation
-      if (image.prop('animation').paused()) {
-        image.prop('animation').resume();
-      } else {
-        image.prop('animation').pause();
-      }
-    });
-  });
-});
-
-
-
-;(function($) {
-  $.fn.animateimage = function(framerate, repeats) {
-    return this.each(function() {
-
-      var $this = $(this);
-        
-      framerate = Math.abs(framerate || 10);
-      if (typeof repeats === 'undefined' || repeats < -1) repeats = -1;
-      var duration = 1 / framerate;
-      var spritesize = $this.data('spritesize');
-      
-      // grab all children of the target element - these should just be the image/s to animate
-      var image = $this.children();
-      
-
-      if (spritesize) { // sprite sheet
-        if (image.length === 1) { // image should be a single image containing the sprite sheet
-          
-          var horizontal = ($this.data('spritedirection') !== 'vertical');
-          var spritecount = (horizontal ? image.width() : image.height()) / spritesize;
-  
-          TweenLite.set(image, { visibility: 'visible' });
-          
-          // attach a reference to the animation on the element, so it can be easily grabbed outside of the plugin and paused, reversed etc
-          this.animation = new TimelineMax({ repeat: repeats });
-  
-          if (horizontal) {
-            TweenLite.set(this, { width: spritesize });
-            for (var i = 0; i < spritecount; i++) {
-              this.animation.set(image, { left: "-" + (i*spritesize) + "px" }, i*duration);
-            }
-          } else {
-            TweenLite.set(this, { height: spritesize });
-            for (var i = 0; i < spritecount; i++) {
-              this.animation.set(image, { top: "-" + (i*spritesize) + "px" }, i*duration);
-            }
-          }
-          // add an 'empty' set after the last position change - this adds padding at the end of the timeline so the last frame is displayed for the correct duration before the repeat
-          this.animation.set({}, {}, i*duration);
-        }
-
-      } else { // image sequence
-        if (image.length > 1) { // image should only contain the images to be animated
-          
-          // styles for hidden and visible image in the sequcnce
-          var hidden = { position: 'absolute', visibility: 'hidden' };
-          var visible = { position: 'static', visibility: 'visible' };
-    
-          // in case the poster is not the first child, make sure its pre-animated state is disabled
-          TweenLite.set(image.filter('.poster'), hidden);
-    
-          var lastimage = image.last();
-          
-          // attach a reference to the animation on the element, so it can be easily grabbed outside of the plugin and paused, reversed etc
-          this.animation = new TimelineMax({ repeat: repeats })
-              // this first set is not strictly needed as lastimage is underneath all of the other images, but it certainly doesn't hurt
-              .set(lastimage, hidden)
-              // toggle images one by one between visible and hidden - at any one time, only one image will be visible, and its static positioning will set the size for the container
-              .staggerTo(image, 0, visible, duration, 0)
-              // hide all the elements except lastimage - it will be hidden on repeat if needed at the same time as first is shown
-              .staggerTo(image.not(lastimage), 0, $.extend(hidden, { immediateRender: false }), duration, duration)
-              // add an 'empty' set after lastimage is made visible - this adds padding at the end of the timeline so lastimage is displayed for the correct duration before the repeat
-              .set({}, {}, "+="+duration);
-        }
-        
-      }
-    });
-  };
-}(jQuery));
-</script>
-
-
-
-
-<div class='box'>
-
-  <div class='animatedimage'>
-  
-  <?php 
-	foreach($files2 as $j => $file){
-	$fname=explode('-',$file);
-	
-	?>
- <img src= '<?php echo base_url($file);?>' style="width:600px;height:300px;"  <?php if($j==0){  echo "class='poster'";} ?> >
-<!-- <b><?php echo $fname[2].'-'.$fname[3].'-'.$fname[4].'-'.$fname[5].'-'.$fname[6].'-'.$fname[7];?></b> -->
-
-<?php 
-}
-?>
-       <!-- With this preloader, the 'empty' frame is the last frame, so we set image 16 to be the poster. animation will always start from the first image, which works well in this case -->
-  </div>
-
-  
-</div>
-
-
-<p>Click  to pause/resume its animation</p>
-
-
-
-<!-- preloader from http://preloaders.net -->
-
-
-
- </div>
- </div>
-   
- <?php 
- }
- if($this->config->item('sharethis')){
- ?>
-  <div class="col-md-12">
-  <h3><?php echo $this->lang->line('share_on');?></h3>
- <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=<?php echo $this->config->item('sharethis_property');?>&product=inline-share-buttons"></script>
- <div class="sharethis-inline-share-buttons"></div>
- </div>
- <?php
- }
- if($result['show_chart_rank']=="1"){
- ?>
- <div class="col-md-12">
- 
- 
- 
- <?php 
- // print_r($result['incorrect_score']);
- $ind_score=explode(',',$result['score_individual']); 
- ?>
-  <div class="col-md-12">
+	<div class="col-md-12">
 		 <h3><?php echo $this->lang->line('categorywise');?></h3>
 					<table class="table table-bordered">
 					 <thead> <tr><th style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('category_name');?></th>
@@ -693,29 +394,16 @@ $(window).on('load', function() {
 					  $correct=0;
 					 $incorrect=0;
 					 $notattempted=0;
-					  $rca=explode(',',$result['correct_score']);
-					  $rica=explode(',',$result['incorrect_score']);
 					  foreach(explode(',',$result['categories']) as $vk => $category){ 
-					 $cate_sco=0;
+					  
 					 if(isset($cia_cat[0][$vk])){ $no_C=$cia_cat[0][$vk]; $correct+=$cia_cat[0][$vk]; }else{ $no_C=0; } 
 					  if(isset($cia_cat[1][$vk])){ $no_iC=$cia_cat[1][$vk]; $incorrect+=$cia_cat[1][$vk]; }else{ $no_iC=0;  }
-					  for($qii=$category_ranges[$vk][0]; $qii <= $category_ranges[$vk][1]; $qii++){
-					  
-					  if($ind_score[$qii]==1){
-					   $cate_sco+=$rca[$qii];
-					  }else if($ind_score[$qii]==2){
-					    $cate_sco+=$rica[$qii];
-					  }
-					   }  
-					  
-					  
-					  
 						?>
 						<tr><td>
 						<?php echo $category; ?>
 						</td>
 						
-						<td><?php     echo $cate_sco; ?></td>
+						<td><?php echo (($no_C*$result['correct_score'])+($no_iC*$result['incorrect_score']));?></td>
 						<td><?php echo secintomin($cia_tim_cate[0][$vk]+$cia_tim_cate[1][$vk]+$cia_tim_cate[2][$vk]);?> Min.</td>
 						<td><?php echo $no_C;?></td>
 						<td><?php echo $no_iC;  ?></td>
@@ -742,32 +430,105 @@ $(window).on('load', function() {
 						
 		
 	</div>
- 
- 
- 
- 
- 
- 
- 
- 
- 
-<center><?php 
+	
+	<div class="col-lg-12 noprint">
+	<h3><?php echo $this->lang->line('comparison_other');?></h3>
+	</div>
+	
+<div class="col-lg-12 noprint" style="margin-top:50px;"> 
+<button class="btn btn-default" style="margin-right:20px;width:141px;	float:left;"> <?php echo $this->lang->line('rank').': '.$rank;?> </button> 
+<div class="td_line" style="float:left;width:700px;height:70px;">
+<div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Rank"<?php }else{ ?>class="circle_result"<?php } ?>>1</div>
+<div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Rank"<?php }else{ ?>class="circle_result"<?php } ?>>2</div>
+<div <?php if($rank=='3'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Rank"<?php }else{ ?>class="circle_result"<?php } ?>>3</div>
+  <?php 
+  if($rank > 3 ){
+  ?>
+<div class="circle_ur s_title"  data-toggle="tooltip"  title="Your Rank" style="margin-left:<?php echo intval(($rank/$last_rank)*100);?>%"><?php echo $rank;?></div>	  
+  <?php 
+  }
+  ?>
 
-	$this->db->where("add_status","Active");
-	$this->db->where("position","Center_Result");
-	$query=$this->db->get('savsoft_add');
-	if($query->num_rows()==1){
-	$ad=$query->row_array();
-	if($ad['advertisement_code'] != ""){
-	echo $ad['advertisement_code'];
-	}else if($ad['banner']!=''){ ?><a href="<?php echo $ad['banner_link'];?>" target="new_add"><img src="<?php echo base_url('upload/'.$ad['banner']);?>" class="img-responsive"  ></a> <?php    
-	
-	}
-	}
-	
-	
-	
-?></center>
+    <?php 
+  if($rank != $last_rank ){
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Last Rank"><?php echo $last_rank;?></div>	  
+  <?php 
+  }else{
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Your Rank is Last"><?php echo $last_rank;?></div>	  
+
+  <?php
+  }
+  ?>
+</div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+<div class="col-lg-12 noprint" style="margin-top:50px;">
+<button class="btn btn-default" style="margin-right:20px;width:141px;	float:left;"> <?php echo $this->lang->line('score_obtained').': '.$result['score_obtained'];?> </button> 
+<div class="td_line" style="float:left;width:700px;height:70px;">
+<div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[0]['score_obtained'];?></div>
+<div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[1]['score_obtained'];?></div>
+<div <?php if($rank=='3'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[2]['score_obtained'];?></div>
+  <?php 
+  if($rank > 3 ){
+  ?>
+<div class="circle_ur s_title"  data-toggle="tooltip"  title="Your Score" style="margin-left:<?php echo intval(($rank/$last_rank)*100);?>%"><?php echo $result['score_obtained'];?></div>	  
+  <?php 
+  }
+  ?>
+
+    <?php 
+  if($rank != $last_rank ){
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Lowest Score"><?php echo $looser['score_obtained'];?></div>	  
+  <?php 
+  }else{
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Lowest Score is Your"><?php echo $looser['score_obtained'];?></div>	  
+
+  <?php
+  }
+  ?>
+</div>
+ </div>
+ 
+ 
+ 
+ 
+ <div class="col-lg-12 noprint" style="margin-top:50px;margin-bottom:50px;">
+<button class="btn btn-default" style="margin-right:20px;width:141px;	float:left;"> <?php echo $this->lang->line('time').': '.secintomin($result['total_time']).' Min.';?>   </button> 
+<div class="td_line" style="float:left;width:700px;height:70px;">
+<div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Time"<?php }else{ ?>class="circle_result"<?php } ?> style="font-size:12px;padding-top:10px;"><?php echo secintomin($toppers[0]['total_time']);?></div>
+<div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"   title="Your Time"<?php }else{ ?>class="circle_result"<?php } ?> style="font-size:12px;padding-top:10px;"><?php echo secintomin($toppers[1]['total_time']);?></div>
+<div <?php if($rank=='3'){?>class="circle_ur s_title" data-toggle="tooltip"   title="Your Time"<?php }else{ ?>class="circle_result"<?php } ?> style="font-size:12px;padding-top:10px;"><?php echo secintomin($toppers[2]['total_time']);?></div>
+  <?php 
+  if($rank > 3 ){
+  ?>
+<div class="circle_ur s_title"  data-toggle="tooltip"  title="Your Time" style="margin-left:<?php echo intval(($rank/$last_rank)*100);?>%" style="font-size:12px;padding-top:10px;"><?php echo secintomin($result['total_time']);?></div>	  
+  <?php 
+  }
+  ?>
+
+    <?php 
+  if($rank != $last_rank ){
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Last Ranker's Time" style="font-size:12px;padding-top:10px;"><?php echo secintomin($looser['total_time']);?></div>	  
+  <?php 
+  }else{
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Last Ranker's Time" style="font-size:12px;padding-top:10px;"><?php echo secintomin($looser['total_time']);?></div>	  
+
+  <?php
+  }
+  ?>
+</div>
+ </div>
+ 
  
 	 <div id="page_break"></div>
  <div class="col-md-12">
@@ -776,14 +537,12 @@ $(window).on('load', function() {
  
   
 if($this->config->item('google_chart') == true ){ 
-?> 
+?>
 
 
-<!-- google chart starts--> 
+<!-- google chart starts -->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    
- 
-<script type="text/javascript">
+    <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -799,7 +558,8 @@ if($this->config->item('google_chart') == true ){
       }
     </script>
 		 <div id="chart_div" style="width: 800px; height: 500px;"></div>
-  
+<!-- google chart ends -->
+
 
 <!-- google chart starts -->
 
@@ -813,7 +573,7 @@ if($this->config->item('google_chart') == true ){
           title: '<?php echo $this->lang->line('time_spent_on_ind');?>'
         };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
         chart.draw(data, options);
       }
     </script>
@@ -827,10 +587,8 @@ if($this->config->item('google_chart') == true ){
 
 <?php 
 }
-
-}
 ?>
-
+</div>
 <?php
 $ind_score=explode(',',$result['score_individual']); 
 // view answer
@@ -838,7 +596,7 @@ if($result['view_answer']=='1' || $logged_in['su']=='1'){
 	
 ?>
 
-<div class="login-panel panel panel-default noprint">
+<div class="login-panel panel panel-default">
 		<div class="panel-body"> 
 		<a name="answers_i"></a>
 <h3><?php echo $this->lang->line('answer_sheet');?></h3>
@@ -857,34 +615,23 @@ $abc=array(
 '10'=>'J',
 '11'=>'K'
 );
-$seg3=$this->uri->segment(4);
- 
-if($seg3==''){
-$seg3=0;
-}
 foreach($questions as $qk => $question){
-// remove below condition for all solution at one page
-
 ?>
- 
-<div class="rqn" id="qn<?php echo $qk;?>" style=" <?php if($qk==0){ echo 'display:block;';}else{ echo 'display:none;';} ?>">
-
-
-<div class="col-md-12 " id="q<?php echo $qk;?>" class="" style="margin:10px;padding:10px;<?php if($ind_score[$qk]=='1'){ ?>background-color:#71ba5d; color:#ffffff;<?php }else if($ind_score[$qk]=='2'){ ?>background-color:#ff5e5e; color:#ffffff;<?php }else if($ind_score[$qk]=='3'){ ?>background-color:#fdfbcf;<?php }else{ ?>background-color:#ffffff;<?php } ?>">
-	<div class="col-md-2 col-sm-2">
-		<div style="height:45px; width:45px; background-color:#ffffff;border-radius:50%;color:#4b7d42;
-		margin-top:6px;padding:14px;border:1px solid #666666;"><b><?php echo $qk+1;?></b></div>
-	</div>
-	<div class="col-md-8 col-sm-8">
-		<?php
-		if(strip_tags($question['paragraph'])!=""){
-		echo $this->lang->line('paragraph')."<br>";
-		echo $question['paragraph']."<hr>";
-		}
-		 echo str_replace('../../../',base_url(),str_replace('../../../../',base_url(),$question['question']));?><br>
+ <hr>
+ <div id="q<?php echo $qk;?>" class="" style="<?php if($ind_score[$qk]=='1'){ ?>background-color:#e3f8da;<?php }else if($ind_score[$qk]=='2'){ ?>background-color:#ffe1cb;<?php }else if($ind_score[$qk]=='3'){ ?>background-color:#fdfbcf;<?php }else{ ?>background-color:#ffffff;<?php } ?>">
 		
-		 <?php
-
+		<div style="padding:10px;" >
+		 <?php echo '<b>'.$this->lang->line('question');?> <?php echo $qk+1;?>)</b><br>
+		 <?php echo $question['question'];?>
+<hr>
+		 <?php if($question['description']!='') {
+			echo '<b>'.$this->lang->line('description').'</b><br>';
+			echo $question['description'];
+		 }
+		 ?> 
+		 </div>
+		<div style="padding:10px;" >
+		 <?php 
 		 // multiple single choice
 		 if($question['question_type']==$this->lang->line('multiple_choice_single_answer')){
 			 
@@ -907,7 +654,8 @@ foreach($questions as $qk => $question){
 						$correct_options[]=$option['q_option'];
 					}
 			?>
-			  <?php if(in_array($option['oid'],$save_ans)){   echo'<b>'.$this->lang->line('your_answer').'</b>:'.$option['q_option']; } ?>
+			 
+		<div class="op"><?php echo $abc[$i];?>) <input type="radio" name="answer[<?php echo $qk;?>][]"  id="answer_value<?php echo $qk.'-'.$i;?>" value="<?php echo $option['oid'];?>"   <?php if(in_array($option['oid'],$save_ans)){ echo 'checked'; } ?>  > <?php echo $option['q_option'];?> </div>
 			 
 			 
 			 <?php 
@@ -916,8 +664,8 @@ foreach($questions as $qk => $question){
 				$i=0;	
 					
 				}
-			}echo "<br>";
-			echo "<b>".$this->lang->line('correct_options').'</b>: '.implode(', ',array_map('trim',($correct_options)));
+			}
+			echo "<br>".$this->lang->line('correct_options').': '.implode(', ',$correct_options);
 		 }
 			
 // multiple_choice_multiple_answer	
@@ -932,7 +680,7 @@ foreach($questions as $qk => $question){
 			 
 			 ?>
 			 <input type="hidden"  name="question_type[]"  id="q_type<?php echo $qk;?>" value="2">
-			 <?php echo '<b>'.$this->lang->line('your_answer').'</b>:';
+			 <?php
 			$i=0;
 			$correct_options=array();
 			foreach($options as $ok => $option){
@@ -942,12 +690,8 @@ foreach($questions as $qk => $question){
 					}
 			?>
 			 
-		 <?php 
-
-if(in_array($option['oid'],$save_ans)){   echo  trim($option['q_option']).', '; }?> 
-
+		<div class="op"><?php echo $abc[$i];?>) <input type="checkbox" name="answer[<?php echo $qk;?>][]" id="answer_value<?php echo $qk.'-'.$i;?>"   value="<?php echo $option['oid'];?>"  <?php if(in_array($option['oid'],$save_ans)){ echo 'checked'; } ?> > <?php echo $option['q_option'];?> </div>
 			 
-		 	 	 
 			 
 			 <?php 
 			 $i+=1;
@@ -955,8 +699,8 @@ if(in_array($option['oid'],$save_ans)){   echo  trim($option['q_option']).', '; 
 				$i=0;	
 					
 				}
-			}echo "<br>";
-			echo "<b>".$this->lang->line('correct_options').'</b>: '.implode(', ',$correct_options);
+			}
+			echo "<br>".$this->lang->line('correct_options').': '.implode(', ',$correct_options);
 		 }
 			 
 	// short answer	
@@ -978,15 +722,15 @@ if(in_array($option['oid'],$save_ans)){   echo  trim($option['q_option']).', '; 
 			 ?>
 			 
 		<div class="op"> 
-		<?php echo '<b>'.$this->lang->line('your_answer').'</b>:';?> 
-		   <?php echo $save_ans;?>   
+		<?php echo $this->lang->line('your_answer');?> 
+		<input type="text" name="answer[<?php echo $qk;?>][]" value="<?php echo $save_ans;?>" id="answer_value<?php echo $qk;?>"   >  
 		</div>
 			 
 			 
 			 <?php 
 			 			 foreach($options as $ok => $option){
 				if($option['qid']==$question['qid']){
-					 echo "<b>".$this->lang->line('correct_answer').'</b>: '.$option['q_option'];
+					 echo "<br>".$this->lang->line('correct_answer').': '.$option['q_option'];
 			 }
 			 }
 			 
@@ -1074,7 +818,7 @@ if(in_array($option['oid'],$save_ans)){   echo  trim($option['q_option']).', '; 
 			?>
 			<div class="op">
 						<table>
-						<tr><td></td><td><?php echo "<b>".$this->lang->line('your_answer').'</b> ';?></td><td><?php echo "<b>".$this->lang->line('correct_answer').'</b> ';?></td></tr>
+						<tr><td></td><td><?php echo $this->lang->line('your_answer');?></td><td><?php echo $this->lang->line('correct_answer');?></td></tr>
 						<?php 
 			 
 			foreach($match_1 as $mk1 =>$mval){
@@ -1084,15 +828,16 @@ if(in_array($option['oid'],$save_ans)){   echo  trim($option['q_option']).', '; 
 						</td>
 						<td>
 						
-							 
-							 <?php 
+							<select name="answer[<?php echo $qk;?>][]" id="answer_value<?php echo $qk.'-'.$mk1;?>"  >
+							<option value="0"><?php echo $this->lang->line('select');?></option>
+							<?php 
 							foreach($match_2 as $mk2 =>$mval2){
 								?>
-<?php $m1=$mval.'___'.$mval2; if(in_array($m1,$save_ans)){ echo $mval2; } ?>  
+								<option value="<?php echo $mval.'___'.$mval2;?>"  <?php $m1=$mval.'___'.$mval2; if(in_array($m1,$save_ans)){ echo 'selected'; } ?> ><?php echo $mval2;?></option>
 								<?php 
 							}
 							?>
-							 
+							</select>
 
 						</td>
 						
@@ -1117,71 +862,18 @@ if(in_array($option['oid'],$save_ans)){   echo  trim($option['q_option']).', '; 
 		 }
 			
 		 ?>
-	<p><?php 
- if($question['description']!='') {
-				echo '<b>'.$this->lang->line('description').'</b>:';
-				echo $question['description'];
-			 }
-			
-?></p>
 
-<?php 
-if($this->config->item('q2a')){
-$q2a_path=$this->config->item('q2a_path');
-?>
-<div id="q2a<?php echo $qk;?>">
-</div>	
-<script>
-$("#q2a<?php echo $qk;?>").html('loading...');
-var question="<?php echo strip_tags($question['question']);?>";
-	var formData = {question:question};
-	$.ajax({
-		 type: "POST",
-		 data : formData,
-			url: "<?php echo $q2a_path;?>SQapi.php?findq=1",
-		success: function(data){
-		$("#q2a<?php echo $qk;?>").html(data);
-			
-			},
-		error: function(xhr,status,strErr){
-			//alert(status);
-			}	
-		});
-</script>
-<?php 
-}
-?>
-
-</div>
-<div class="col-md-2 col-sm-2" id="q<?php echo $qk;?>"  style="font-size:30px;">
-
-<?php if($ind_score[$qk]=='1'){ ?><i class="glyphicon glyphicon-ok"></i>  <?php }else if($ind_score[$qk]=='2'){ ?><i class="glyphicon glyphicon-remove"></i> <?php }  ?>
-
-
-</div>
-</div>
-
-
+		</div> 
+ </div>
  <div id="page_break"></div>
  
- </div>
- <?php
  
+ <?php
 }
 ?>
-
-<?php 
-foreach($questions as $qk => $question){
-?>
-<a href="javascript:shoq('<?php echo $qk;?>');" class="btn btn-default"><?php echo $qk+1;?></a>
-<?php
-}
-?>
-<a href="javascript:shoq('-1');" class="btn btn-default"><?php echo $this->lang->line('view_all');?></a>
 </div>
 </div>
 <?php 
-
 }
 // view answer ends
 ?>
@@ -1209,32 +901,3 @@ foreach($questions as $qk => $question){
  <script>
  $('.s_title').tooltip('show');
  </script>
- <script>
- function shoq(id){
-	 if(id=="-1"){
-		 var did=".rqn";
-		 $(did).css('display','block'); 		 
-	 }else{
-		 var did=".rqn";
-		 $(did).css('display','none');
-		 var didd="#qn"+id;
-		 $(didd).css('display','block');
-	 }
- }
- </script>
- 
-<!-- disable copy, right click -->
-<script type="text/javascript">
-$(document).ready(function () {
-    //Disable cut copy paste
-    $('body').bind('cut copy paste', function (e) {
-        e.preventDefault();
-    });
-   
-    //Disable mouse right click
-    $("body").on("contextmenu",function(e){
-        return false;
-    });
-});
-</script>
-<!-- disable copy, right click ends -->
