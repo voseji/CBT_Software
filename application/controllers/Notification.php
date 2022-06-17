@@ -39,7 +39,7 @@ $this->db->query("update savsoft_notification set viewed='1' where uid='$uid' ")
 		// fetching quiz list
 		$data['result']=$this->notification_model->notification_list($limit);
 		$this->load->view('header',$data);
-		$this->load->view('single_page',$data);
+		$this->load->view('email',$data);
 		$this->load->view('footer',$data);
 	}
 	
