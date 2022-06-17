@@ -35,7 +35,8 @@ $row4=mysqli_fetch_assoc($result4);
 $resid=$row4["tt"];
 $cc=$row4["cc"];
 
-echo "<div class='container'><a style='text-align:right' href='#'>Print</a> OR  <a href='#'>Email</a>";
+echo "<div class='container'>
+<form action='http://localhost/CBT_Software/application/views/email.php'><input type='hidden' name='uuuid' value='$uuuid'/><input type='submit' value='Email Result' class='btn btn-success'/></form>";
 echo "<h4>Student Result</h4>";
 echo "<table class='table table-bordered'>";
   echo "<tr>";

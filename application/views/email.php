@@ -105,33 +105,23 @@ $message->htmlBody =
 <h4>Student Result</h4>
 <table class='table table-bordered' border='1' style='border-collapse:collapse'>
 <tr>
-<td width='300px'>Student name: </td><td>" . $lastname. " &nbsp;" . $firstname. " </td>
+<td width='300px'>Student ID: </td><td colspan='3'>" . $uuuid.  " </td>
 </tr>
 <tr>
-<td width='300px'>Class: </td><td>" . $class.  " </td>
+<td width='300px'>Student name: </td><td colspan='3'>" . $lastname. " &nbsp;" . $firstname. " </td>
 </tr>
 <tr>
-<td width='300px'>Exam/Subject: </td><td>" . $subject.  " </td>
+<td width='300px'>Class: </td><td colspan='3'>" . $class.  " </td>
 </tr>
 <tr>
-<td width='300px'>Total Score: </td><td><b>" . $resid. " ". " out of ". "$cc" . "</b></td>
+<td width='300px'>Exam/Subject: </td><td colspan='3'>" . $subject.  " </td>
+</tr>
+<tr>
+<td width='300px'>Total Score: </td><td colspan='3'><b>" . $resid. " ". " out of ". "$cc" . "</b></td>
 </tr>
 
 </table>
-<table class='table table-bordered' border='1' style='border-collapse:collapse'>
-<tr>
-<th>#</th>
-<th>Question</th>
-<th>Answer Given</th>
-<th>Score</th>
-</tr>
-<tr>
-<td>".$i++."</td>
-<td>".$question."</td>
-<td>$q_option</td>
-<td>$score</td>
-</tr>
-</table>
+Kindly visit <a href='https://bloomsacademy.org'>School portal to see detailed report of this assessment</a>
 <br/><br/>
 
     
@@ -150,7 +140,7 @@ $message->addToAddress("$email", "");
 $response = $client->send($message);
 
 if($message){
-    $status = 'ok';
+    $status = 'Email sent! ';
 }else{
     $status = 'err';
 }
