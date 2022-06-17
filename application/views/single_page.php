@@ -10,20 +10,15 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-$uid="1";
+// $uid="1";
 $id=$_GET['rid'];
 $uuuid=$_GET['uuuid'];
 
 $sql = "SELECT savsoft_users.first_name, savsoft_users.last_name, savsoft_group.group_name, savsoft_quiz.quiz_name, savsoft_result.percentage_obtained FROM savsoft_result 
-
 JOIN savsoft_users ON savsoft_users.uid=savsoft_result.uid
 JOIN savsoft_group ON savsoft_users.gid=savsoft_group.gid
 JOIN savsoft_quiz ON savsoft_result.quid=savsoft_quiz.quid
 WHERE rid='".$uuuid."'";
-
-// $sql = "SELECT uid FROM savsoft_result 
-
-// WHERE rid='".$id."'";
 
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
@@ -32,7 +27,6 @@ if ($result->num_rows > 0) {
   
     if($this->session->userdata('logged_in')){
       $sql4 = "SELECT SUM(savsoft_answers.score_u) as tt, COUNT(savsoft_answers.score_u) as cc FROM savsoft_answers 
-
 WHERE savsoft_answers.rid=$uuuid
 ";
 
@@ -56,9 +50,7 @@ echo "<table class='table table-bordered'>";
   echo "<tr>";
   echo "<td width='300px'>Total Score: </td><td><b>" . $resid. " ". " out of ". "$cc" . "</b></td>";
   echo "</tr>";
-  echo "<tr>";
-  echo "<td width='300px'>Question</td><td>" . $row["e"].  " </td>";
-  echo "</tr>";
+
 echo "</table>";
 
 }
@@ -99,13 +91,6 @@ if ($res = mysqli_query($link, $sql2)) {
 		while ($row = mysqli_fetch_array($res)) {
       $qq=$row['qid'];
       $tr=$row['uid'];
-
-      // $qq=159;
-      // $tr=1;
-// $sql3 = "SELECT savsoft_options.q_option FROM savsoft_answers 
-// JOIN savsoft_options ON savsoft_options.oid=savsoft_answers.q_option
-// WHERE savsoft_answers.qid='".$qq."' AND savsoft_answers.uid='".$uuuid."'
-// ";
 
 $sql3 = "SELECT savsoft_answers.qid, savsoft_answers.score_u, savsoft_options.q_option FROM savsoft_answers 
 JOIN savsoft_options ON savsoft_options.oid=savsoft_answers.q_option 
