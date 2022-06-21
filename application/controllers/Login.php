@@ -29,10 +29,13 @@ class Login extends CI_Controller {
 			$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']=='1'){
 				redirect('dashboard');
-			}else{
+			}
+			elseif($logged_in['su']=='2'){
 				redirect('quiz');	
 			}
-			
+			else{
+				redirect('teacher');	
+			}
 		}
 		
 		

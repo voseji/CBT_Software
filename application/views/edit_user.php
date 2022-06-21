@@ -22,7 +22,7 @@
 		?>	
 		
 				<div class="form-group">	 
-				<?php echo $this->lang->line('group_name');?>: <?php echo $result['group_name'];?> (<?php echo $this->lang->line('price_');?>: <?php echo $result['price'];?>)
+				<?php echo $this->lang->line('group_name');?>: <?php echo $result['group_name'];?> 
 				</div>
 				
 				
@@ -48,11 +48,8 @@
 					<input type="text" name="contact_no"  class="form-control"  value="<?php echo $result['contact_no'];?>"  placeholder="<?php echo $this->lang->line('contact_no');?>"   autofocus>
 			</div>
 
-
-				<div class="form-group">	 
-					<label for="inputEmail" class="sr-only"><?php echo $this->lang->line('skype_id');?></label> 
-					<input type="text" name="skype_id"  class="form-control"  value="<?php echo $result['skype_id'];?>"  placeholder="<?php echo $this->lang->line('skype_id');?>"   autofocus>
-			</div>
+	
+		
 
 				<div class="form-group">	 
 					<label   ><?php echo $this->lang->line('select_group');?></label> 
@@ -61,16 +58,13 @@
 					foreach($group_list as $key => $val){
 						?>
 						
-						<option value="<?php echo $val['gid'];?>" <?php if($result['gid']==$val['gid']){ echo 'selected';}?> ><?php echo $val['group_name'];?> (<?php echo $this->lang->line('price_');?>: <?php echo $val['price'];?>)</option>
+						<option value="<?php echo $val['gid'];?>" <?php if($result['gid']==$val['gid']){ echo 'selected';}?> ><?php echo $val['group_name'];?> </option>
 						<?php 
 					}
 					?>
 					</select>
 			</div>
-			<div class="form-group">	 
-					<label for="inputEmail"  ><?php echo $this->lang->line('subscription_expired');?></label> 
-					<input type="text" name="subscription_expired"  id="subscription_expired" class="form-control" value="<?php if($result['subscription_expired']!='0'){ echo date('Y-m-d',$result['subscription_expired']); }else{ echo '0';} ?>" placeholder="<?php echo $this->lang->line('subscription_expired');?>"  value=""  autofocus>
-			</div>
+		
 
 
 				<div class="form-group">	 
@@ -121,44 +115,6 @@
 
 
 
-<div class="row">
-<div class="col-md-8">
-<h3><?php echo $this->lang->line('payment_history');?></h3>
-<table class="table table-bordered">
-<tr>
- <th><?php echo $this->lang->line('payment_gateway');?></th>
-<th><?php echo $this->lang->line('paid_date');?> </th>
-<th><?php echo $this->lang->line('amount');?></th>
-<th><?php echo $this->lang->line('transaction_id');?> </th>
-<th><?php echo $this->lang->line('status');?> </th>
-</tr>
-<?php 
-if(count($payment_history)==0){
-	?>
-<tr>
- <td colspan="5"><?php echo $this->lang->line('no_record_found');?></td>
-</tr>	
-	
-	
-	<?php
-}
-foreach($payment_history as $key => $val){
-?>
-<tr>
- <td><?php echo $val['payment_gateway'];?></td>
- <td><?php echo date('Y-m-d H:i:s',$val['paid_date']);?></td>
- <td><?php echo $val['amount'];?></td>
- <td><?php echo $val['transaction_id'];?></td>
- <td><?php echo $val['payment_status'];?></td>
- 
-</tr>
-
-<?php 
-}
-?>
-</table>
-
-</div>
 
 </div>
 

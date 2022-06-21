@@ -21,14 +21,14 @@ use Socketlabs\Message\EmailAddress;
 
 $serverId = 36540;
 $injectionApiKey = "Sp85Ngd6DGo7x3XBj9b4";
-$email="vctroseji@gmail.com";
+// $email="vctroseji@gmail.com";
 $client = new SocketLabsClient($serverId, $injectionApiKey);
 // $fullname="{$fname} {$sname} {$otname}";
 $message = new BasicMessage(); 
 
 $uuuid=$_GET['uuuid'];
 
-$sql = "SELECT savsoft_users.first_name, savsoft_users.last_name, savsoft_group.group_name, savsoft_quiz.quiz_name, savsoft_result.percentage_obtained FROM savsoft_result 
+$sql = "SELECT savsoft_users.email, savsoft_users.first_name, savsoft_users.last_name, savsoft_group.group_name, savsoft_quiz.quiz_name, savsoft_result.percentage_obtained FROM savsoft_result 
 JOIN savsoft_users ON savsoft_users.uid=savsoft_result.uid
 JOIN savsoft_group ON savsoft_users.gid=savsoft_group.gid
 JOIN savsoft_quiz ON savsoft_result.quid=savsoft_quiz.quid
@@ -42,6 +42,7 @@ if ($result->num_rows > 0) {
     $firstname=$row['first_name'];
     $class=$row["group_name"];
     $subject=$row["quiz_name"];
+    $email=$row["email"];
 
 // if($this->session->userdata('logged_in')){
 $sql4 = "SELECT SUM(savsoft_answers.score_u) as tt, COUNT(savsoft_answers.score_u) as cc FROM savsoft_answers
